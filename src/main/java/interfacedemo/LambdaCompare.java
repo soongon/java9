@@ -14,7 +14,7 @@ public class LambdaCompare {
     }
 }
 
-// 1. anonymous inner class version
+// 1. impl class version
 class MyComparator implements Comparator<String> {
 
     @Override
