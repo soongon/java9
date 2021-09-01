@@ -9,16 +9,13 @@ public class LambdaCompare {
         List<String> favoriteColors =
                 Arrays.asList("red", "pink", "blue", "brown", "purple");
 
-        favoriteColors.sort(new MyComparator());
+        // 2. anonymous inner class version
+        favoriteColors.sort(new Comparator<String>() {
+            @Override
+            public int compare(String o1, String o2) {
+                return o2.length() - o1.length();
+            }
+        });
         System.out.println(favoriteColors);
-    }
-}
-
-// 1. impl class version
-class MyComparator implements Comparator<String> {
-
-    @Override
-    public int compare(String o1, String o2) {
-        return o2.length() - o1.length();
     }
 }
