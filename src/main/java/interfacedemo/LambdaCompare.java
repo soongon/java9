@@ -10,7 +10,8 @@ public class LambdaCompare {
                 Arrays.asList("red", "pink", "blue", "brown", "purple");
 
         // 3. Lambda version
-        favoriteColors.sort((a, b) -> b.length() - a.length());
+        Comparator<String> stringComparator = (a, b) -> b.length() - a.length();
+        favoriteColors.sort(stringComparator);
         System.out.println(favoriteColors);
     }
 }
