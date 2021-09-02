@@ -7,7 +7,10 @@ import java.util.function.Predicate;
 
 public class AppleClassifier {
 
+    // filtering, mapping, reducing
+
     public static void main(String[] args) {
+
         List<Apple> apples = Arrays.asList(
                 new Apple(250, "green"),
                 new Apple(350, "red"),
@@ -28,9 +31,9 @@ public class AppleClassifier {
 
         Predicate<Apple> condition = a -> a.getColor().equals("red") && a.getWeight() > 300;
 
-        List<Apple> result = filterApples(apples, condition);
+        List<Apple> filterApples = filterApples(apples, apple -> apple.getWeight() > 300);
 
-        System.out.println(result);
+        System.out.println();
     }
 
     public static List<Apple> filterApples(List<Apple> inventory, Predicate<Apple> predicate) {
