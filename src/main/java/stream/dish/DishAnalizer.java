@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class DishAnalizer {
     public static void main(String[] args) {
@@ -21,11 +22,12 @@ public class DishAnalizer {
                 new Dish("prawn", true, 410, "FISH")
         );
         // 목적 : 칼로리가 400이하인 요리의 이름을 칼로리 순으로 정렬하여 상위 3개 출력
-        List<String> collect = dishes.stream()
-                .filter(dish -> dish.getCalories() <= 400) // Stream<Apple>
+        Stream<String> stringStream = dishes.stream()
                 .sorted(Comparator.comparingInt(Dish::getCalories))  // Stream<Apple>
-                .map(Dish::getName)  // Stream<String>
-                .collect(Collectors.toList());
+                .filter(dish -> dish.getCalories() <= 400) // Stream<Apple>
+                .map(Dish::getName);// Stream<String>
+
+        List<String> collect = stringStream.collect(Collectors.toList());
 
         System.out.println(collect);
 
