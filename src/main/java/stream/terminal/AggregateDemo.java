@@ -2,9 +2,8 @@ package stream.terminal;
 
 import stream.dish.Dish;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.OptionalDouble;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class AggregateDemo {
     public static void main(String[] args) {
@@ -33,13 +32,44 @@ public class AggregateDemo {
         System.out.println(count2);
         // 3. vegeterian 용 요리의 평균 칼로리는?
         OptionalDouble average = dishes.stream()
-                .filter(dish -> dish.isVegeterian())
-                .mapToInt(dish -> dish.getCalories())  // Stream<Integer> --> IntStream
+                .filter(Dish::isVegeterian)
+                .mapToInt(Dish::getCalories)  // Stream<Integer> --> IntStream
                 .average();
 
         double result = average.orElse(0);
         System.out.println(result);
         // 4. 과일과 기타 요리중에 가장 칼로리가 높은 음식의 이름을 출력하세요
+        List<Dish> dishMax = dishes.stream()
+                .filter(dish -> dish.getType().equals("FRUIT") || dish.getType().equals("OTHER"))
+                .sorted((a, b) -> b.getCalories() - a.getCalories())
+                .limit(1)
+                .collect(Collectors.toList());
+        System.out.println(dishMax.get(0).getName());
+
+        // 4-1.과일과 기타 요리중에 가장 칼로리를 출력
+        OptionalInt res = dishes.stream()
+                .filter(dish -> dish.getType().equals("FRUIT") || dish.getType().equals("OTHER"))
+                .mapToInt(dish -> dish.getCalories())
+                .max();
+        System.out.println(res.orElse(0));
+
+        // 5. match 관련 - 칼로리가 700 이상인 요리가 있는가?
+        boolean isOk = dishes.stream()
+                .anyMatch(dish -> dish.getCalories() >= 900);
+        System.out.println(isOk);
+
+        // 6. reduce 사용하여 칼로리의 합계를 구하다.
+        //    채식주의자용 요리의 칼로리 합
+        Optional<Integer> result3 = dishes.stream()
+                .filter(Dish::isVegeterian)
+                .map(Dish::getCalories)  // Stream<Integer>
+                .reduce(Integer::sum);
+        System.out.println(result3.orElse(0));
+
+        int result4 = dishes.stream()
+                .filter(Dish::isVegeterian)
+                .map(Dish::getCalories)
+                .reduce(0, Integer::sum);
 
     }
 }
