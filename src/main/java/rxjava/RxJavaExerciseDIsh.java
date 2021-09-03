@@ -1,5 +1,6 @@
 package rxjava;
 
+import io.reactivex.rxjava3.core.Flowable;
 import stream.dish.Dish;
 
 import java.util.Arrays;
@@ -23,6 +24,9 @@ public class RxJavaExerciseDIsh {
         // 1. dishes(컬렉션) 에서 Flowable 생성
         // 2. 400 칼로리 이하의 음식 필터링
         // 3. 이름만 반환(매핑)
-        // 4. 콘솔에 출력
+        Flowable.fromIterable(dishes)
+                .filter(dish -> dish.getCalories() < 400)
+                .map(dish -> dish.getName())
+                .subscribe(System.out::println);
     }
 }
